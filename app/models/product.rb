@@ -28,7 +28,7 @@ class Product < ApplicationRecord
   }
   scope :like_most, ->{order "likes_count DESC"}
   scope :hot_product, ->{
-    joins(:order_details).group("product_id").order("sum(quantity) DESC")
+    joins(:order_details).group("products.id").order("sum(quantity) DESC")
       .limit Settings.product.hot
   }
   scope :by_category, -> (category_id){where(id: category_id)}

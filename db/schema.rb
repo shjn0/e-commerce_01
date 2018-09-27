@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 20180918034201) do
 
-  create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "image"
     t.text "description"
@@ -23,7 +26,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "comment_hierarchies", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "comment_hierarchies", id: false, force: :cascade do |t|
     t.integer "ancestor_id", null: false
     t.integer "descendant_id", null: false
     t.integer "generations", null: false
@@ -31,7 +34,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["descendant_id"], name: "comment_desc_idx"
   end
 
-  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer "user_id"
     t.bigint "product_id"
     t.text "content"
@@ -41,7 +44,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["product_id"], name: "index_comments_on_product_id"
   end
 
-  create_table "features", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "features", force: :cascade do |t|
     t.text "screen"
     t.text "camera"
     t.text "cpu"
@@ -54,7 +57,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["product_id"], name: "index_features_on_product_id"
   end
 
-  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "images", force: :cascade do |t|
     t.bigint "product_id"
     t.string "image_url"
     t.datetime "created_at", null: false
@@ -62,7 +65,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["product_id"], name: "index_images_on_product_id"
   end
 
-  create_table "likes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "likes", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "product_id"
     t.boolean "status", default: false
@@ -72,7 +75,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
-  create_table "order_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "order_details", force: :cascade do |t|
     t.bigint "order_id"
     t.bigint "product_id"
     t.integer "quantity"
@@ -83,7 +86,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["product_id"], name: "index_order_details_on_product_id"
   end
 
-  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "orders", force: :cascade do |t|
     t.bigint "user_id"
     t.integer "total"
     t.integer "status"
@@ -92,7 +95,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
-  create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "products", force: :cascade do |t|
     t.string "name"
     t.bigint "category_id"
     t.integer "price"
@@ -104,7 +107,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "promotion_details", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "promotion_details", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "promotion_id"
     t.date "start_date"
@@ -115,14 +118,14 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["promotion_id"], name: "index_promotion_details_on_promotion_id"
   end
 
-  create_table "promotions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "promotions", force: :cascade do |t|
     t.text "content"
     t.integer "percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ratings", force: :cascade do |t|
     t.integer "user_id"
     t.bigint "product_id"
     t.integer "stars"
@@ -131,7 +134,7 @@ ActiveRecord::Schema.define(version: 20180918034201) do
     t.index ["product_id"], name: "index_ratings_on_product_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.boolean "role", default: false
